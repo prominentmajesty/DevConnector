@@ -1,0 +1,6 @@
+{
+    "mongoURl" : "mongodb+srv://majesty:majesty@devconnectcluster.lgs2e.mongodb.net/devConnectorDB?retryWrites=true&w=majority",
+    "jwtSeccret" : "mySecrettoken",
+    "githubClientId" : "1fadfba31fb6d856cc49",
+    "githubSecret" : "1fadfba31fb6d856cc49"
+}
