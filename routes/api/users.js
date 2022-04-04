@@ -27,12 +27,13 @@ router.post('/', [
         //Check If User Exist
         let userExist = await User.findOne({email : email});
         if(userExist){
+            console.log('User already exist');
            return res.status(400).json({errors : [{msg : 'User already exist'}]});
         }
 
         //Get User gravata
         const avatar = gravatar.url(email, {
-            s : '200',
+            s : '200', 
             r : 'pg',
             d : 'mm'
         });
@@ -42,7 +43,6 @@ router.post('/', [
             email,
             avatar,
             password,
-
         })
 
         //Encrypt Password
@@ -68,8 +68,8 @@ router.post('/', [
         );
 
     }catch(err){
-        console.error(err);
-        res.status(500).send('Server Error');
+        console.log('Error :' + err);
+        res.status(500).json({errors : [{msg : err}]});
     }
 });
 

@@ -7,7 +7,6 @@ const {check, validationResult} = require('express-validator');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const { status } = require('express/lib/response');
 const Post = require('../../models/Post');
 
 // @route  GET api/profile/me
@@ -15,7 +14,7 @@ const Post = require('../../models/Post');
 //@acess   private
 router.get('/me', auth, async (req, res) => {
     try{
-        const profile = await Profile.findOne({user : req.user.id}).populate('user',['name','avatar']);
+        const profile = await Profile.findOne({user : req.user.id}).populate('user',['name','avatar','email']);
         if(!profile){
             return res.status(400).json({msg : 'There is no profile for this user'});
         }
@@ -59,12 +58,12 @@ router.post('/', [auth, [
         if(company) profileFields.company = company;
         if(website) profileFields.website = website;
         if(location) profileFields.location = location;
-        if(bio) profileFields.bio = bio;
         if(status) profileFields.status = status;
-        if(githubusername) profileFields.githubusername = githubusername;
         if(skills){
             profileFields.skills = skills.split(',').map(skills => skills.trim());
         }
+        if(bio) profileFields.bio = bio;
+        if(githubusername) profileFields.githubusername = githubusername;
 
         //Build Social object
         profileFields.social = {};
@@ -129,6 +128,9 @@ router.get('/user/:user_id', async (req, res) => {
 //@acess   private
 router.delete('/', auth, async (req, res) => {
     try {
+
+        // Remove User Post
+        await Post.deleteMany({user : req.user.id});
 
         // Remove profile
         await Profile.findOneAndRemove({user : req.user.id}); 
@@ -313,3 +315,47 @@ router.get('/github/:username', (req, res) => {
 });
 
 module.exports = router; 
+
+/*
+--> ADD PROFILE
+{
+    "company" : "Blue Screens",
+    "website" : "www.bluescreen.com", 
+    "location" : "Owerri",
+    "bio" : "A great man born on 30 of october",
+    "status" : "Single",
+    "githubusername" : "prominentmajesty",
+    "skills" : "programming",
+    "youtube" : "ugoaugustine7@youtube",
+    "facebook" : "odoemene ugochukwu",
+    "twitter" : "ugo@twitter",
+    "instagram" : "ugo@instagram",
+    "linkedin" : "ugo@linkedin"
+}
+
+
+--> ADD EXPERIENCE
+{
+    "title" : "The tale of one lion",
+    "company" : "bluescreen", 
+    "location" : "Owerri",
+    "from" : "3/1/1992",
+    "to" : "3/2/1992",
+    "current" : true,
+    "description" : "amakaohia"
+}
+
+
+--> ADD EDUCATION
+{
+    "school" : "Umudike",
+    "degree" : "BSC", 
+    "fieldofstudy" : "Computer Science",
+    "from" : "3/1/1992",
+    "to" : "3/2/1992",
+    "current" : true,
+    "description" : "amakaohia"
+}
+*/
+
+

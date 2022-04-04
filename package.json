@@ -4,10 +4,10 @@
   "description": "Social Network For Developers",
   "main": "server.js",
   "scripts": {
-    "start" : "node server",
-    "server" : "nodemon server.js",
-    "client" : "npm start --prefix client",
-    "dev" : "concurrently \"npm run server\" \"npm run client\""
+    "start": "node server",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Majesty",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.0",
+    "redux-logger": "^3.0.6",
     "request": "^2.88.2"
   },
   "devDependencies": {

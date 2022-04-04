@@ -98,7 +98,8 @@ router.delete('/:id', auth, async (req, res) => {
 router.put('/like/:id', auth, async (req, res) => {
     try{
         const post = await Post.findById(req.params.id);
-        //check if the post has already been liked by the user
+        //check if the post has already been liked by the user 
+        //Filter is another way of saying forEch()
         if(post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
             return res.status(400).json({msg : 'Post already liked'});
         }
@@ -196,3 +197,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
+/*
+    {
+    "text" : "You are welcome to live update over what is happing in Ukrain"
+}
+*/
